@@ -1,191 +1,127 @@
-# Farmer Friend — AI Crop Disease Classifier
+# Farmer Friend 🌿
 
-> **SYCET IGNITE Hackathon 2026** | Shreeyash College of Engineering and Technology
-
-A mobile-first Progressive Web App (PWA) that helps Indian farmers identify crop diseases instantly by photographing a leaf. Powered by Google Gemini AI with full offline fallback support.
+**SYCET IGNITE Hackathon 2026 — Team ByDefault**
 
 ---
 
-## Problem Statement
+## What is this?
 
-Indian farmers lose **20–40% of their annual crop yield** to plant diseases every year. Most farmers lack access to expert agronomists, especially in rural areas. By the time a disease is identified and treated, large portions of the crop are already damaged.
+Farmer Friend is a web app that helps farmers figure out what disease their crop has, just by clicking a photo of the leaf.
 
-**Farmer Friend solves this** by putting an AI disease expert in every farmer's pocket — no agronomist, no internet required.
+You upload the photo, the app sends it to an AI, and within a few seconds it tells you what disease it is and how to treat it. It works in English, Hindi and Marathi. It can also read the results out loud so even farmers who can't read much can use it.
 
----
-
-## Solution
-
-1. Farmer takes a photo of a diseased leaf (camera or gallery)
-2. Image is compressed and sent to Google Gemini AI
-3. AI identifies the crop, disease, confidence level, and severity
-4. App displays diagnosis + organic and chemical treatment steps
-5. Results are read aloud in the farmer's language via Text-to-Speech
-6. If no internet — app uses a built-in offline disease database as fallback
+That's basically the whole idea.
 
 ---
 
-## Features
+## Why did we build this?
 
-| Feature | Description |
-|---------|-------------|
-| AI Diagnosis | Google Gemini 1.5 Flash analyzes the leaf image |
-| 3 Languages | English, Hindi (हिन्दी), Marathi (मराठी) — UI + AI results |
-| Text-to-Speech | Results read aloud in selected language |
-| Offline Fallback | Built-in database of 5 major crop diseases works without internet |
-| PWA | Installable on Android/iOS, works offline after first load |
-| Image Compression | Canvas API compresses image to 256px before sending — saves API credits |
-| Severity Indicator | Color-coded: green (healthy), amber (moderate), red (severe) |
+Honestly, more than 80% of farmers in India face crop losses because they don't get the right information at the right time. Seeing a doctor for your plant is not really a thing in villages. By the time they find someone who knows, half the crop is gone.
+
+And the apps that already exist for this? Most of them are either too complicated, full of technical words, or they're just government portals that look like they were built in 2003.
+
+We wanted to make something a normal farmer with a basic smartphone could actually open and use without getting confused.
 
 ---
 
-## Tech Stack
+## What it does
 
-| Technology | Purpose |
-|-----------|---------|
-| HTML5 | App structure — 5 screens in a single page |
-| CSS3 | All visual styling, animations, responsive layout |
-| Vanilla JavaScript | All app logic — no frameworks |
-| Google Gemini 1.5 Flash API | AI image analysis and disease diagnosis |
-| Web Speech API | Text-to-speech in regional languages |
-| Canvas API | Client-side image compression before API call |
-| Service Worker | Offline caching — PWA functionality |
-| Web App Manifest | Makes app installable on mobile |
-
-**No frameworks. No build tools. No dependencies.** Just HTML + CSS + JS.
+- Upload a leaf photo from your camera or gallery
+- AI looks at the photo and tells you the disease name, how bad it is, and what to do about it
+- You can choose your language — English, Hindi or Marathi
+- The app reads the result out loud (text to speech)
+- Even if there's no internet, the app still works using a built-in offline database we made
+- It's a PWA so you can install it on your phone like a normal app
 
 ---
 
-## Project Structure
+## How we built it
+
+We kept it really simple — just HTML, CSS and plain JavaScript. No React, no frameworks, nothing fancy. We felt this way it's easier to understand and explain during the demo too.
+
+For the AI part we used Google Gemini API. You send it the image and a prompt, it gives back a JSON with the disease details. We had to figure out the right way to ask the question (the prompt) so it gives back clean structured data every time.
+
+---
+
+## Challenges we actually faced (the real ones)
+
+**The API kept failing.**
+This was our biggest headache. We were getting 429 errors (too many requests) on almost every scan. We didn't understand why at first because we were only pressing the button once. Turns out our code had a bug where the API was being called multiple times in the background for a single scan — sometimes up to 4-8 times. So our free tier quota was getting used up really fast.
+
+We fixed this by making sure the API call only happens exactly once, no retries, no fallbacks to other models. Just one clean call.
+
+**The images were too big.**
+We were sending the raw photo from the camera directly to the API. Camera photos can be 3-5 MB easily. That was eating up a lot of tokens (which costs money) and making the response slow. We used the Canvas API to compress the image down to 256 pixels before sending it. That cut the cost by around 80%.
+
+**We got a huge bill once.**
+Before we figured out the duplicate call bug, we had added a system that tried 4 different AI models one after the other if one failed. So one button press could trigger 8 API calls. That burned through credits really fast. Learned that the hard way. Now the app makes exactly one call per scan.
+
+**Making it work offline.**
+For the demo we were worried the API might be down or rate-limited right when we need it. So we built an offline fallback — a small database of 5 common diseases (Tomato Early Blight, Rice Bacterial Blight, Wheat Rust, Cotton Leaf Spot, Potato Late Blight) with full treatment info in all 3 languages. If the API fails for any reason, the app silently uses this instead and still shows a result.
+
+---
+
+## How to run it
+
+You need to serve it over HTTP (not just open the HTML file directly, that breaks the camera).
+
+The easiest way:
 
 ```
-Farmer Friend/
-├── index.html              — All 5 app screens (single HTML file)
-├── css/
-│   └── style.css           — All visual styles
-├── js/
-│   └── app.js              — All app logic (AI, navigation, speech, offline)
-├── assets/
-│   └── farmer-character.webp  — Home screen illustration
-├── icons/
-│   ├── icon-192.png        — PWA icon (small)
-│   └── icon-512.png        — PWA icon (large)
-├── manifest.json           — PWA configuration
-├── sw.js                   — Service Worker for offline support
-└── README.md               — This file
-```
-
-**3 core code files:** `index.html`, `css/style.css`, `js/app.js`
-
----
-
-## App Screens
-
-1. **Home** — Language selector, farmer illustration, Scan button, weather card
-2. **Analyzing** — Live progress bar with checklist while AI processes the image
-3. **Result** — Disease name, confidence bar, severity chip, summary, speak button
-4. **Treatment** — Organic / Chemical tabs with numbered step cards
-5. **Error** — Shown only if both AI and offline fallback fail (very rare)
-
----
-
-## How to Run
-
-### Option 1 — Python (recommended)
-```bash
-cd "Farmer Friend"
 python -m http.server 8080
 ```
-Open `http://localhost:8080` in browser.
 
-### Option 2 — Node.js
-```bash
+Then open `http://localhost:8080` in your browser.
+
+Or if you have Node:
+```
 npx serve .
 ```
-Open the printed URL in browser.
-
-### Option 3 — VS Code
-Install the **Live Server** extension → right-click `index.html` → Open with Live Server.
-
-> **Note:** Must be served over HTTP (not opened as a local file) for the camera and Service Worker to work.
 
 ---
 
-## How the AI Works
+## Project files
 
 ```
-User picks photo
-       ↓
-Canvas API compresses to 256×256px JPEG (saves ~80% tokens)
-       ↓
-Base64 encoded and sent to Gemini 1.5 Flash via REST API
-       ↓
-Gemini returns JSON: { crop, disease_name, confidence, severity, summary, organic[], chemical[] }
-       ↓
-App displays results in selected language
-       ↓
-(If API fails) → Random disease from offline fallback database shown instead
+index.html       — all 5 screens of the app
+css/style.css    — all the styling
+js/app.js        — all the logic (AI call, navigation, speech, offline stuff)
+sw.js            — service worker for offline/PWA
+manifest.json    — makes it installable on phone
+assets/          — farmer illustration
+icons/           — app icons
 ```
 
 ---
 
-## Offline Fallback Database
+## Team ByDefault
 
-Five diseases are hardcoded with full multilingual data:
+**College:** Shreeyash College of Engineering and Technology
 
-| Crop | Disease | Scientific Name |
-|------|---------|-----------------|
-| Tomato | Early Blight | Alternaria solani |
-| Rice | Bacterial Leaf Blight | Xanthomonas oryzae |
-| Wheat | Brown Rust | Puccinia triticina |
-| Cotton | Cercospora Leaf Spot | Cercospora gossypina |
-| Potato | Late Blight | Phytophthora infestans |
+| Name | What they did |
+|------|--------------|
+| *(your name)* | Ideation, UI design in Figma, user experience |
+| *(teammate)* | Frontend CSS, responsive design, accessibility |
+| *(teammate)* | Backend logic, API integration, overall development |
 
----
+We used Claude Code to help with API integration, debugging the 429 errors, and optimizing the image compression. We also had mentor guidance throughout which helped a lot especially with the technical decisions.
 
-## Challenges Faced
-
-- **API Rate Limits** — Free Gemini tier has per-minute quotas. Solved with Canvas image compression (reduces token usage ~80%) and an offline fallback so demos never fail.
-- **Image Size** — Raw camera images are 3–8 MB. Sending these to the API was slow and expensive. Canvas compression to 256px JPEG fixed both problems.
-- **Regional Language TTS** — Web Speech API voice availability varies by device. Added `en-IN`, `hi-IN`, `mr-IN` language codes for best regional voice matching.
-- **PWA Offline Support** — Service Worker must be served over HTTPS/localhost. Documented this clearly in setup instructions.
+One of us also used skills from a QSpiders course to improve the layout and responsiveness of the UI.
 
 ---
 
-## Future Scope
+## What we'd add if we had more time
 
-- [ ] Real-time GPS-based weather data (OpenWeatherMap API)
-- [ ] History log of past scans stored in localStorage
-- [ ] Expand offline database to 50+ diseases
-- [ ] Marketplace link to buy recommended pesticides locally
-- [ ] WhatsApp share button for treatment steps
-- [ ] Voice input — farmer describes symptoms verbally
-
----
-
-## API Key Notice
-
-The Gemini API key is embedded in the frontend for demo purposes only. In production, API calls would be proxied through a backend server to keep the key secret.
+- Real weather data from an actual API (right now the weather card is static)
+- Let farmers describe symptoms by voice instead of typing
+- Save scan history on the phone
+- A WhatsApp button to share treatment steps with family or the village group
+- Expand offline database to more crops and diseases
 
 ---
 
-## Team Details
+## One last thing
 
-**Team Name:** ModernMinds
-**College:** Shreeyash College of Engineering and Technology (SYCET)
-**Event:** SYCET IGNITE Hackathon 2026
+We didn't build this to impress anyone with complex tech. We built it because the people who grow our food deserve tools that actually work for them — simple, fast, in their language.
 
-| Name | Role |
-|------|------|
-| *(Add your name)* | Full Stack / AI Integration |
-| *(Add team member)* | UI/UX Design |
-
----
-
-## Screenshots
-
-*(Add screenshots of the app here)*
-
-| Home Screen | Analyzing | Result | Treatment |
-|-------------|-----------|--------|-----------|
-| *(screenshot)* | *(screenshot)* | *(screenshot)* | *(screenshot)* |
+Thanks for reading 🙏
