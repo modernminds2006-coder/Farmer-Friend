@@ -1,0 +1,688 @@
+/* farmer friend styles
+   white + green theme, rounded corners everywhere
+   using css variables so its easy to change colors */
+
+
+/* colors - change these to change the whole look */
+
+:root {
+    --white: #FFFFFF;
+    --bg: #FAFAF7;           /* very light off-white */
+    --green: #A8E063;         /* main green accent */
+    --green-soft: #EDF6DC;    /* light green for cards */
+    --green-deep: #143818;    /* dark green for buttons */
+    --green-ink: #0E2A12;     /* text on green backgrounds */
+    --ink: #111111;           /* main text color */
+    --ink-soft: #5C6760;      /* secondary text */
+    --ink-mute: #9AA29C;      /* light/muted text */
+    --line: #ECECE7;          /* borders and dividers */
+    --field: #F3F3EE;         /* input/field backgrounds */
+    --pill: #F1F1EC;          /* pill button background */
+    --amber: #E8B23A;         /* warning/moderate color */
+    --rust: #B8553A;          /* severe/danger color */
+    --font: 'Plus Jakarta Sans', -apple-system, system-ui, sans-serif;
+}
+
+
+/* reset - removes default browser styles */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%;
+    font-family: var(--font);
+    background: var(--white);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+}
+
+
+/* main app container */
+
+#app {
+    width: 100%;
+    min-height: 100vh;
+    max-width: 480px;        /* mobile-width max */
+    margin: 0 auto;          /* center on desktop */
+    position: relative;
+    background: var(--white);
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* top bar - back button + language selector */
+
+#top-bar {
+    padding: 14px 18px 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--white);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+/* App logo + name */
+.app-logo {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.logo-icon {
+    font-size: 20px;
+}
+
+.logo-text {
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--green-deep);
+    letter-spacing: -0.02em;
+}
+
+/* Circle button (back button) */
+.circle-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--pill);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+/* Language pill button */
+.lang-pill {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--pill);
+    border: none;
+    border-radius: 999px;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-family: var(--font);
+}
+
+.lang-pill span {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--ink);
+    letter-spacing: 0.04em;
+}
+
+
+/* language dropdown */
+
+.dropdown {
+    position: absolute;
+    top: 56px;
+    right: 16px;
+    z-index: 50;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 6px;
+    width: 200px;
+    box-shadow: 0 16px 40px -10px rgba(0,0,0,0.15);
+}
+
+.dropdown-item {
+    width: 100%;
+    text-align: left;
+    border: none;
+    cursor: pointer;
+    padding: 10px 12px;
+    border-radius: 10px;
+    background: transparent;
+    display: block;
+    font-family: var(--font);
+}
+
+.dropdown-item:hover, .dropdown-item.active {
+    background: var(--field);
+}
+
+.lang-native {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink);
+}
+
+.lang-sub {
+    font-size: 11px;
+    color: var(--ink-mute);
+    margin-top: 1px;
+}
+
+.hidden { display: none !important; }
+
+
+/* screens - only one visible at a time */
+
+.screen {
+    display: none;
+    flex: 1;
+    flex-direction: column;
+}
+
+.screen.active {
+    display: flex;
+}
+
+
+/* common layout stuff */
+
+.center-box {
+    display: flex;
+    justify-content: center;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.heading-lg {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--ink);
+    letter-spacing: -0.02em;
+}
+
+.heading-md {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--ink);
+}
+
+.text-muted {
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.5;
+}
+
+.text-muted-sm {
+    font-size: 12px;
+    color: var(--ink-soft);
+    margin-top: 6px;
+}
+
+.text-italic {
+    font-size: 11px;
+    color: var(--ink-mute);
+    font-style: italic;
+    margin-top: 4px;
+}
+
+.meta-line {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--ink-mute);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+
+/* pill buttons - the rounded buttons we use everywhere */
+
+.btn-stack {
+    padding: 20px 24px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.pill-btn {
+    width: 100%;
+    border: none;
+    border-radius: 999px;
+    padding: 14px 18px;
+    font-size: 14px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    cursor: pointer;
+    font-family: var(--font);
+    transition: transform 0.1s;
+}
+
+.pill-btn:active {
+    transform: scale(0.97);
+}
+
+/* Green button — primary actions */
+.pill-green {
+    background: var(--green);
+    color: var(--green-ink);
+}
+
+/* Deep green button — important actions */
+.pill-deep {
+    background: var(--green-deep);
+    color: #fff;
+}
+
+/* Outline button — secondary actions */
+.pill-outline {
+    background: transparent;
+    color: var(--green-deep);
+    border: 1.5px solid var(--green-deep);
+}
+
+
+/* home screen */
+
+.farmer-img {
+    width: 170px;
+    height: auto;
+    display: block;
+    object-fit: contain;
+}
+
+/* Weather card */
+.weather-card {
+    background: var(--green-soft);
+    border-radius: 20px;
+    padding: 14px 16px;
+}
+
+.weather-top {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.weather-icon-box {
+    width: 56px;
+    height: 56px;
+    border-radius: 16px;
+    background: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 20px;
+}
+
+.weather-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+}
+
+.weather-temp {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-top: 2px;
+}
+
+.temp-big {
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--green-deep);
+}
+
+.temp-small {
+    font-size: 11px;
+    color: var(--ink-soft);
+}
+
+.weather-tip {
+    font-size: 12px;
+    color: var(--ink-soft);
+    margin-top: 10px;
+    line-height: 1.45;
+}
+
+.weather-stats {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.stat-box {
+    flex: 1;
+    background: var(--white);
+    border-radius: 10px;
+    padding: 8px 10px;
+}
+
+.stat-label {
+    font-size: 10px;
+    color: var(--ink-soft);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.stat-value {
+    font-size: 14px;
+    font-weight: 700;
+    margin-top: 2px;
+    color: var(--ink);
+}
+
+.footer-credit {
+    text-align: center;
+    padding: 14px 24px 18px;
+    font-size: 11px;
+    color: var(--ink-mute);
+    letter-spacing: 0.02em;
+    margin-top: auto;
+}
+
+
+/* analyzing screen - shows while ai is working */
+
+.analyze-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+}
+
+/* Circular image preview */
+.preview-circle {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid var(--line);
+    margin-bottom: 8px;
+    flex-shrink: 0;
+}
+
+.preview-circle.green-border {
+    border-color: var(--green);
+}
+
+.preview-circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Progress bar */
+.progress-track {
+    margin-top: 22px;
+    width: 220px;
+    height: 4px;
+    background: var(--field);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: var(--green);
+    border-radius: 2px;
+    transition: width 0.15s ease;
+}
+
+.progress-pct {
+    margin-top: 8px;
+    font-size: 11px;
+    color: var(--ink-mute);
+    font-variant-numeric: tabular-nums;
+}
+
+/* Checklist */
+.checklist {
+    margin-top: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 220px;
+}
+
+.check-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    color: var(--ink-mute);
+    transition: color 0.2s;
+}
+
+.check-row.done {
+    color: var(--ink);
+}
+
+.check-dot {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 1.4px solid var(--line);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    flex-shrink: 0;
+}
+
+.check-row.done .check-dot {
+    background: var(--green);
+    border-color: var(--green);
+}
+
+.check-row.done .check-dot::after {
+    content: '✓';
+    font-size: 10px;
+    color: var(--green-ink);
+    font-weight: 700;
+}
+
+
+/* result screen */
+
+.chip {
+    border-radius: 999px;
+    padding: 4px 14px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    display: inline-block;
+}
+
+.chip-healthy {
+    background: #E8F5E9;
+    color: var(--green-deep);
+}
+
+.chip-disease {
+    background: #FFF3E0;
+    color: var(--rust);
+}
+
+.conf-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--ink-mute);
+    margin-bottom: 6px;
+}
+
+.conf-val {
+    font-weight: 700;
+    color: var(--ink);
+}
+
+.conf-track {
+    height: 6px;
+    background: var(--field);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.conf-fill {
+    height: 100%;
+    background: var(--green);
+    border-radius: 3px;
+    transition: width 0.5s ease;
+}
+
+.severity-line {
+    margin-top: 6px;
+    font-size: 11px;
+    color: var(--ink-mute);
+}
+
+.severity-amber { color: var(--amber); }
+.severity-rust { color: var(--rust); }
+.severity-green { color: var(--green-deep); }
+
+.summary-box {
+    text-align: center;
+    padding: 12px 32px 20px;
+    font-size: 12px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+    margin-top: auto;
+}
+
+
+/* treatment screen */
+
+.tab-row {
+    padding: 12px 24px 0;
+    display: flex;
+    gap: 8px;
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 10px;
+    border-radius: 999px;
+    border: none;
+    background: var(--pill);
+    color: var(--ink);
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    font-family: var(--font);
+    transition: all 0.2s;
+}
+
+.tab-btn.tab-active {
+    background: var(--green-deep);
+    color: #fff;
+}
+
+.steps-list {
+    padding: 16px 24px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.step-card {
+    background: var(--bg);
+    border-radius: 18px;
+    padding: 14px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.step-num {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    background: var(--green);
+    color: var(--green-ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 14px;
+}
+
+.step-text {
+    flex: 1;
+    font-size: 13px;
+    color: var(--ink);
+    line-height: 1.45;
+}
+
+.safety-box {
+    margin: 12px 24px 0;
+    background: #FFF6E6;
+    border: 1px solid var(--amber);
+    border-radius: 14px;
+    padding: 10px 12px;
+    font-size: 11px;
+    color: var(--green-ink);
+    line-height: 1.5;
+}
+
+
+/* error screen */
+
+.error-center {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 32px;
+    gap: 16px;
+    text-align: center;
+}
+
+.error-center p {
+    max-width: 280px;
+    line-height: 1.6;
+}
+
+
+/* toast - little popup message at bottom */
+
+.toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--rust);
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-family: var(--font);
+    font-size: 14px;
+    font-weight: 600;
+    z-index: 2000;
+    animation: slideUp 0.3s ease;
+}
+
+
+/* animations */
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+    to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+    animation: fadeIn 0.4s ease;
+}
