@@ -147,11 +147,7 @@ var TRANSLATIONS = {
         greeting: "Namaste",
         subtitle: "Let's check your crop today",
         scan: "Scan a Crop",
-        weather: "Weather today",
-        weatherRange: "High 30° · Low 22°",
-        weatherTip: "Light rain · spray after sunset",
-        humidity: "Humidity",
-        wind: "Wind",
+        upload: "Upload Image",
         analyzing: "Analyzing leaf…",
         analyzingSub: "Matching against 38 diseases",
         detected: "Detected",
@@ -168,11 +164,7 @@ var TRANSLATIONS = {
         greeting: "नमस्ते",
         subtitle: "आज अपनी फसल देखें",
         scan: "फसल स्कैन करें",
-        weather: "आज का मौसम",
-        weatherRange: "अधिकतम 30° · न्यूनतम 22°",
-        weatherTip: "हल्की बारिश · सूर्यास्त के बाद छिड़काव",
-        humidity: "नमी",
-        wind: "हवा",
+        upload: "तस्वीर अपलोड करें",
         analyzing: "पत्ती की जाँच…",
         analyzingSub: "38 बीमारियों से मिलान",
         detected: "पहचानी गई",
@@ -189,11 +181,7 @@ var TRANSLATIONS = {
         greeting: "नमस्कार",
         subtitle: "आज पीक तपासूया",
         scan: "पीक स्कॅन करा",
-        weather: "आजचे हवामान",
-        weatherRange: "कमाल 30° · किमान 22°",
-        weatherTip: "हलका पाऊस · सूर्यास्तानंतर फवारणी",
-        humidity: "दमट",
-        wind: "वारा",
+        upload: "चित्र अपलोड करा",
         analyzing: "पानाची तपासणी…",
         analyzingSub: "38 रोगांशी मिळवणी",
         detected: "ओळखला रोग",
@@ -269,9 +257,9 @@ function showScreen(screenName) {
     // Step 3: Update the back button visibility
     currentScreen = screenName;
     if (screenName === "home" || screenName === "analyzing") {
-        btnBack.style.visibility = "hidden";
+        btnBack.style.display = "none";
     } else {
-        btnBack.style.visibility = "visible";
+        btnBack.style.display = "flex";
     }
 
     // Step 4: Close language dropdown
@@ -296,9 +284,14 @@ btnBack.addEventListener("click", goBack);
 // we convert the photo to base64 (basically text version of the image)
 // so we can send it to google's api
 
-// When "Scan a Crop" button is clicked
+// when scan button is clicked, open camera
 document.getElementById("btn-scan").addEventListener("click", function () {
-    fileInput.click(); // Opens camera/gallery dialog
+    fileInput.click();
+});
+
+// upload image button also opens file picker
+document.getElementById("btn-upload").addEventListener("click", function () {
+    fileInput.click();
 });
 
 // When user picks a file
@@ -622,11 +615,7 @@ function setLanguage(lang) {
     document.getElementById("home-greeting").textContent = t.greeting;
     document.getElementById("home-subtitle").textContent = t.subtitle;
     document.getElementById("scan-text").textContent = t.scan;
-    document.getElementById("weather-title").textContent = t.weather;
-    document.getElementById("weather-range").textContent = t.weatherRange;
-    document.getElementById("weather-tip").textContent = t.weatherTip;
-    document.getElementById("humidity-label").textContent = t.humidity;
-    document.getElementById("wind-label").textContent = t.wind;
+    document.getElementById("upload-text").textContent = t.upload;
     document.getElementById("analyzing-title").textContent = t.analyzing;
     document.getElementById("analyzing-sub").textContent = t.analyzingSub;
 
@@ -733,3 +722,31 @@ if ("serviceWorker" in navigator) {
         console.log("SW registration failed:", err);
     });
 }
+
+// PWA install prompt
+var installPrompt = null;
+var installBanner = document.getElementById("install-banner");
+var btnInstall = document.getElementById("btn-install");
+
+window.addEventListener("beforeinstallprompt", function (e) {
+    e.preventDefault();
+    installPrompt = e;
+    installBanner.style.display = "block";
+});
+
+btnInstall.addEventListener("click", function () {
+    if (!installPrompt) return;
+    installPrompt.prompt();
+    installPrompt.userChoice.then(function (result) {
+        if (result.outcome === "accepted") {
+            installBanner.style.display = "none";
+        }
+        installPrompt = null;
+    });
+});
+
+// Hide banner once app is installed
+window.addEventListener("appinstalled", function () {
+    installBanner.style.display = "none";
+    installPrompt = null;
+});

@@ -68,22 +68,25 @@ html, body {
     z-index: 10;
 }
 
-/* App logo + name */
+/* app logo in top bar */
 .app-logo {
     display: flex;
     align-items: center;
     gap: 6px;
+    font-size: 17px;
+    letter-spacing: -0.03em;
+    line-height: 1;
 }
 
-.logo-icon {
-    font-size: 20px;
+.logo-word-farmer {
+    font-weight: 900;
+    color: #2B8A3E;
 }
 
-.logo-text {
-    font-size: 15px;
-    font-weight: 800;
-    color: var(--green-deep);
-    letter-spacing: -0.02em;
+.logo-word-friend {
+    font-weight: 500;
+    color: #2B8A3E;
+    opacity: 0.75;
 }
 
 /* Circle button (back button) */
@@ -282,98 +285,26 @@ html, body {
 
 /* home screen */
 
+.home-center {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 30px 24px 10px;
+    width: 100%;
+}
+
+.home-center .btn-stack {
+    width: 100%;
+    max-width: 340px;
+}
+
 .farmer-img {
-    width: 170px;
+    width: 180px;
     height: auto;
     display: block;
     object-fit: contain;
-}
-
-/* Weather card */
-.weather-card {
-    background: var(--green-soft);
-    border-radius: 20px;
-    padding: 14px 16px;
-}
-
-.weather-top {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-}
-
-.weather-icon-box {
-    width: 56px;
-    height: 56px;
-    border-radius: 16px;
-    background: var(--white);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    font-size: 20px;
-}
-
-.weather-label {
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--ink-soft);
-}
-
-.weather-temp {
-    display: flex;
-    align-items: baseline;
-    gap: 8px;
-    margin-top: 2px;
-}
-
-.temp-big {
-    font-size: 28px;
-    font-weight: 800;
-    letter-spacing: -0.02em;
-    color: var(--green-deep);
-}
-
-.temp-small {
-    font-size: 11px;
-    color: var(--ink-soft);
-}
-
-.weather-tip {
-    font-size: 12px;
-    color: var(--ink-soft);
-    margin-top: 10px;
-    line-height: 1.45;
-}
-
-.weather-stats {
-    display: flex;
-    gap: 8px;
-    margin-top: 12px;
-}
-
-.stat-box {
-    flex: 1;
-    background: var(--white);
-    border-radius: 10px;
-    padding: 8px 10px;
-}
-
-.stat-label {
-    font-size: 10px;
-    color: var(--ink-soft);
-    font-weight: 600;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-}
-
-.stat-value {
-    font-size: 14px;
-    font-weight: 700;
-    margin-top: 2px;
-    color: var(--ink);
 }
 
 .footer-credit {
@@ -383,6 +314,23 @@ html, body {
     color: var(--ink-mute);
     letter-spacing: 0.02em;
     margin-top: auto;
+}
+
+.install-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 13px 20px;
+    border-radius: 50px;
+    border: 1.5px dashed #2B8A3E;
+    background: #f0faf3;
+    color: #2B8A3E;
+    font-family: var(--font);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
 }
 
 

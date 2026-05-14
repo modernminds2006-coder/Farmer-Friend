@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Green background -->
+  <rect width="512" height="512" rx="112" fill="#2B8A3E"/>
+
+  <!-- Leaf shape -->
+  <path d="M256 96 C340 120, 390 190, 370 280 C350 360, 280 400, 210 375 C140 350, 118 280, 140 210 C160 148, 256 96, 256 96 Z"
+        fill="none" stroke="white" stroke-width="18" stroke-linecap="round"/>
+
+  <!-- Leaf center vein -->
+  <path d="M256 106 Q248 240, 216 374"
+        stroke="white" stroke-width="14" fill="none" stroke-linecap="round"/>
+
+  <!-- Left veins -->
+  <path d="M252 185 Q220 200, 200 230" stroke="white" stroke-width="10" fill="none" stroke-linecap="round" opacity="0.8"/>
+  <path d="M242 250 Q210 268, 194 300" stroke="white" stroke-width="10" fill="none" stroke-linecap="round" opacity="0.8"/>
+
+  <!-- Right veins -->
+  <path d="M258 185 Q290 200, 308 228" stroke="white" stroke-width="10" fill="none" stroke-linecap="round" opacity="0.8"/>
+  <path d="M252 250 Q284 265, 300 294" stroke="white" stroke-width="10" fill="none" stroke-linecap="round" opacity="0.8"/>
+
+  <!-- Stem -->
+  <path d="M230 374 Q244 400, 256 416" stroke="white" stroke-width="14" fill="none" stroke-linecap="round" opacity="0.7"/>
+</svg>

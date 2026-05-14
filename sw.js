@@ -1,28 +1,16 @@
-/* ============================================
-   SERVICE WORKER for Farmer Friend PWA
+var CACHE_NAME = "farmer-friend-v4";
 
-   WHAT: A background script that caches files
-   HOW:  Saves HTML/CSS/JS so the app loads offline
-   WHY:  Farmers may not always have internet.
-         Cached files load instantly.
-   ============================================ */
-
-// Cache name — change the version number to force
-// the browser to re-download all files
-var CACHE_NAME = "farmdoc-v3";
-
-// Files to save for offline use
 var FILES_TO_CACHE = [
     "/index.html",
     "/css/style.css",
     "/js/app.js",
     "/manifest.json",
-    "/icons/icon-192.png",
-    "/icons/icon-512.png"
+    "/icons/icon.svg",
+    "/assets/farmer-character.webp"
 ];
 
-// INSTALL — save files to cache when SW is first installed
 self.addEventListener("install", function (event) {
+    self.skipWaiting();
     event.waitUntil(
         caches.open(CACHE_NAME).then(function (cache) {
             return cache.addAll(FILES_TO_CACHE);
@@ -30,27 +18,23 @@ self.addEventListener("install", function (event) {
     );
 });
 
-// ACTIVATE — delete old caches when a new version is installed
 self.addEventListener("activate", function (event) {
     event.waitUntil(
         caches.keys().then(function (names) {
             return Promise.all(
                 names.map(function (name) {
-                    if (name !== CACHE_NAME) {
-                        return caches.delete(name);
-                    }
+                    if (name !== CACHE_NAME) return caches.delete(name);
                 })
             );
+        }).then(function () {
+            return self.clients.claim();
         })
     );
 });
 
-// FETCH — serve from network first, fall back to cache
 self.addEventListener("fetch", function (event) {
-    // Don't cache API calls — we need fresh AI responses
-    if (event.request.url.includes("googleapis.com")) {
-        return;
-    }
+    // Never cache API calls
+    if (event.request.url.includes("googleapis.com")) return;
 
     event.respondWith(
         fetch(event.request)
