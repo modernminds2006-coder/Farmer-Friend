@@ -1,6 +1,6 @@
 # Farmer Friend 🌿
 
-**SYCET IGNITE Hackathon 2026 — Team ByDefault**
+**SYCET IGNITE Hackathon 2026 — Team Modern Minds**
 
 ---
 
