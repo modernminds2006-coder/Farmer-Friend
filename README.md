@@ -1,6 +1,6 @@
 # Farmer Friend 🌿
 
-**SYCET IGNITE Hackathon 2026 — Team Modern Minds**
+**SYCET IGNITE Hackathon 2026 (Team Modern Minds)**
 
 ---
 
@@ -128,6 +128,6 @@ One of us also used skills from a QSpiders course to improve the layout and resp
 
 ## One last thing
 
-We didn't build this to impress anyone with complex tech. We built it because the people who grow our food deserve tools that actually work for them — simple, fast, in their language.
+We didn't build this to impress anyone with complex tech. We built it because the people who grow our food deserve tools that actually work for them simple, fast, in their language.
 
 Thanks for reading 🙏
