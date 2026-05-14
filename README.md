@@ -28,7 +28,7 @@ We wanted to make something a normal farmer with a basic smartphone could actual
 
 - Upload a leaf photo from your camera or gallery
 - AI looks at the photo and tells you the disease name, how bad it is, and what to do about it
-- You can choose your language — English, Hindi or Marathi
+- You can choose your language  (English, Hindi or Marathi)
 - The app reads the result out loud (text to speech)
 - Even if there's no internet, the app still works using a built-in offline database we made
 - It's a PWA so you can install it on your phone like a normal app
@@ -65,15 +65,21 @@ For the demo we were worried the API might be down or rate-limited right when we
 
 You need to serve it over HTTP (not just open the HTML file directly, that breaks the camera).
 
-The easiest way:
-
+**Option 1 — Python**
 ```
 python -m http.server 8080
 ```
 
+**Option 2 — PowerShell**
+
+Press `Win + R` → type `powershell` → press Enter, then run:
+```
+cd "C:\Users\lenovo\Desktop\Antigravity Projects\Farmer Friend"; python -m http.server 8080
+```
+
 Then open `http://localhost:8080` in your browser.
 
-Or if you have Node:
+**Option 3 — Node**
 ```
 npx serve .
 ```
@@ -100,9 +106,9 @@ icons/           — app icons
 
 | Name | What they did |
 |------|--------------|
-| *(your name)* | Ideation, UI design in Figma, user experience |
-| *(teammate)* | Frontend CSS, responsive design, accessibility |
-| *(teammate)* | Backend logic, API integration, overall development |
+| 01. Sagar | Ideation, UI design in Figma, user experience |
+| 02. Akshay | Frontend CSS, responsive design, accessibility |
+| 03. Asim | Backend logic, API integration, overall development |
 
 We used Claude Code to help with API integration, debugging the 429 errors, and optimizing the image compression. We also had mentor guidance throughout which helped a lot especially with the technical decisions.
 
