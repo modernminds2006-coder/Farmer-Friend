@@ -6,12 +6,11 @@
 
 // --- our gemini api settings ---
 // got this key from Google AI Studio (its free)
-var API_KEY = "AIzaSyCPeNI6tM4bYiRjYWAJGz3AP6tuM1cQEec";
 var MODEL_NAME = "gemini-1.5-flash"; // vision-capable, free tier
 
-// full api url (we send our image here)
+// API key is loaded from config.js (gitignored — never in the repo)
 var API_URL = "https://generativelanguage.googleapis.com/v1beta/models/"
-    + MODEL_NAME + ":generateContent?key=" + API_KEY;
+    + MODEL_NAME + ":generateContent?key=" + GEMINI_API_KEY;
 
 
 // --- backup disease database ---
